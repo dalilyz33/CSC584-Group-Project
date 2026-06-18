@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Assistance Application - CareShare</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <header>
+            <h2>Assistance Application Form</h2>
+            <nav>
+                <a href="student_dashboard.html">Dashboard</a>
+                <a href="application.html"><strong>Assistance Application</strong></a>
+                <a href="booking.html">Food Collection Bookings</a>
+                <a href="voucher.html">Voucher Redeems</a>
+                <a href="donation.html">Food Donations</a>
+                <a href="login.html">Log Out</a>
+            </nav>
+        </header>
+        
+        <main>
+            <section>
+                <form action="student_dashboard.html" method="GET">
+                    <div>
+                        <h3>Applicant's Personal Information</h3>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Full Name</th>
+                                    <th>Student ID</th>
+                                    <th>Program Code</th>
+                                    <th>Email</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Student</td>
+                                    <td>1234567</td>
+                                    <td>CS240</td>
+                                    <td>student@email.com</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div>
+                        <label>Application Type</label>
+                        <select id="application_type" name="application_type" required>
+                            <option value="Food voucher">Food voucher</option>
+                            <option value="Emergency supply">Emergency supply</option>
+                            <option value="Finanicial aid">Financial aid</option>
+                        </select>
+                    </div>
+            
+                    <div>
+                        <label>Application date</label>
+                        <input type="date" id="application_date" name="application_date">
+                    </div>
+            
+                    <div>
+                        <label>Attached document(s)</label>
+                        <input type="file" id="application_supportingDocument" name="application_supportingDocument" required>
+                    </div>
+            
+                    <div>
+                        <input type="hidden" id="application_status" name="application_status" value="pending">
+                    </div>
+            
+                    <br>
+                    <button value="submit">Submit Application</button>
+                </form>
+            </section>
+        </main>
+    </body>
+</html>

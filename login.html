@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<!--
+Student info
+User id: 1234567
+email: student123@email.com
+password:stud123
+
+Admin info
+User id: 9876543
+email: admin123@email.com
+password: admin123
+-->
+<html>
+    <head>
+        <title>Login - CareShare</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <h1>CareShare - Digital Food Bank & Voucher Distribution System</h1>
+        
+        <div>
+            <h2>Welcome!</h2>
+        </div>
+        
+        <div>
+            <form action="student_dashboard.html" method="GET">
+                <div>
+                    <label for="student_id">User ID:</label>
+                    <input type="text" id="user_id" name="user_id" placeholder="Enter user ID">
+                </div>
+                <div>
+                    <label for="user_password">Password</label>
+                    <input type="password" id="user_password" name="user_password" placeholder="Enter password">
+                </div>
+                <br>
+                
+                <div>
+                    <button type="submit" formaction="student_dashboard.html">Log In as Student</button>
+                    <button type="submit" formaction="admin.html">Log In as Admin</button>
+                </div>
+                <br>
+                
+                <p>Don't have an account? 
+                    <a href="register.html"><button type="button">Register here</button></a>
+                </p>
+            </form>
+        </div>
+    </body>
+</html>

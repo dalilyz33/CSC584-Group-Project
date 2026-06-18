@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Review Applications - CareShare</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <header>
+            <h2>Review Applications</h2>
+            <nav>
+                <a href="admin.html"><strong>Dashboard</strong></a>
+                <a href="review_application.html">Review Applications</a>
+                <a href="inventory.html">Inventory Management</a>
+                <a href="login.html">Log Out</a>
+            </nav>
+            <hr>
+            <a href="admin.html">
+                <button type="button">Back</button>
+            </a>
+        </header>
+        <hr>
+        
+        <main>
+            <form action="review_application.html" method="GET">
+            
+                <input type="hidden" name="application_id" value="{{ application.application_id }}">
+            
+                <input type="hidden" name="application_reviewedBy" value="{{ current_admin.staff_id }}">
+
+                <section>
+                    <h3>Application</h3>
+                    <ul>
+                        <li><strong>Application ID:</strong> {{ application.application_id }}</li>
+                        <li><strong>Application Type:</strong> {{ application.application_type }}</li>
+                        <li><strong>Submission Date:</strong> {{ application.application_date }}</li>
+                        <li><strong>Current Status:</strong> {{ application.application_status }}</li>
+                    </ul>
+                </section>
+
+                <hr>
+
+                <section>
+                    <h3>Applicant Information (Student)</h3>
+                    <ul>
+                        <li><strong>Student ID:</strong> {{ application.student_id }}</li>
+                        <li><strong>Full Name:</strong> {{ student.user_fullName }}</li>
+                        <li><strong>Email:</strong> {{ student.user_email }}</li>
+                        <li><strong>Program Code:</strong> {{ student.program_code }}</li>
+                        <li><strong>Group Code:</strong> {{ student.group_code }}</li>
+                    </ul>
+                </section>
+
+                <hr>
+
+                <section>
+                    <h3>Supporting Documents</h3>
+                    <p>
+                        <strong>File Attachment:</strong> 
+                        <a href="/uploads/{{ application.application_supportingDocument }}" target="_blank">
+                            View Submitted Document ({{ application.application_supportingDocument }})
+                        </a>
+                    </p>
+                </section>
+
+                <hr>
+
+                <section>
+                    <h3>Review Decision</h3>
+                
+                    <p>By selecting an action below, your Staff ID (<strong>{{ current_admin.staff_id }}</strong>) will be recorded as the reviewer, and the application status will update accordingly.</p>
+
+                    <div>
+                        <a href="/admin/applications">Cancel & Return to List</a>
+                        &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+                    
+                        <button type="submit" name="action_status" value="Rejected">Reject Application</button>
+                        <button type="submit" name="action_status" value="Approved">Approve Application</button>
+                    </div>
+                </section>
+
+            </form>
+        </main>
+    </body>
+</html>

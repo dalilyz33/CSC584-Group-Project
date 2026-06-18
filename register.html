@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<!--
+Student info
+User id: 1234567
+Name: Student
+email: student123@email.com
+password:student123
+
+Admin info
+User id: 9876543
+Name: Admin
+email: admin123@email.com
+password: admin123
+-->
+<html>
+    <head>
+        <title>Registration - CareShare</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <h2>Account Registration</h2>
+        
+        <div>
+            <form action="login.html" method="GET">
+                <div>
+                    <label for="user_id">User ID:</label>
+                    <input type="text" id="user_id" name="user-id" required>
+                </div>
+                <br>
+                
+                <div>
+                    <label>Full Name:</label>
+                    <input type="text" id="user_fullName" name="user_fullName" required>
+                </div>
+                <br>
+            
+                <div>
+                    <label>Email:</label>
+                    <input type="text" id="user_email" name="user_email" required>
+                </div>
+                <br>
+            
+                <div>
+                    <label>New Password:</label>
+                    <input type="password" id="user_password" name="user_password" required>
+                </div>
+                <br>
+            
+                <div>
+                    <label>Re-enter password:</label>
+                    <input type="password" id="confirm_password" name="confirm_password" required>
+                </div>
+                <br>
+                
+                <div>
+                    <label for="user_role">You are a(n)</label>
+                    <select id="user_role" name="user_role" required>
+                        <option value="Student">Student</option>
+                        <option value="Admin">Admin/Staff</option>
+                    </select>
+                </div>
+                
+                <br>
+                <button type="submit">Create New Account</button>
+            </form>
+        </div>
+        
+        <div>
+            <p>Already have an account?</p>
+            <a href="login.html"><button type="button">Log in here</button></a>
+        </div>
+    </body>
+</html>

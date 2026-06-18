@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Food Collection Bookings - CareShare</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <header>
+            <h2>Food Collection Bookings</h2>
+            <nav>
+                <a href="dashboard.html">Dashboard</a>
+                <a href="application.html">Assistance Application</a>
+                <a href="booking.html"><strong>Food Collection Bookings</strong></a>
+                <a href="voucher.html">Voucher Redeems</a>
+                <a href="donation.html">Food Donations</a>
+                <a href="login.html">Log Out</a>
+            </nav>
+        </header>
+        <hr>
+        
+        <main>
+            <section>
+                <h3>Reserve a Food Item Package</h3>
+                <p>Select an available item from our inventory and pick a pickup window at the campus booth resource desk.</p>
+
+                <form action="booking.html" method="GET">
+                
+                    <input type="hidden" name="student_id" value="1234567">
+
+                    <div>
+                        <label for="fooditem_id">Available Inventory Supply Item:</label><br>
+                        <select id="fooditem_id" name="fooditem_id" required>
+                            <option value="">-- Choose Item Stock --</option>
+                            <option value="FI-9081">White Rice Pack 5kg (Category: Staple Food)</option>
+                            <option value="FI-3402">UHT Whole Milk 1L Box (Category: Dairy)</option>
+                            <option value="FI-5521">Canned Baked Beans 400g (Category: Canned Goods)</option>
+                        </select>
+                    </div>
+                    <br>
+
+                    <div>
+                        <label for="booking_date">Collection Date:</label><br>
+                        <input type="date" id="booking_date" name="booking_date" value="2026-05-19" required>
+                    </div>
+                    <br>
+
+                    <div>
+                        <label for="booking_time">Collection Pickup Window:</label><br>
+                        <select id="booking_time" name="booking_time" required>
+                            <option value="">-- Choose Time Interval --</option>
+                            <option value="10:00 AM">10:00 AM - 11:30 AM</option>
+                            <option value="02:00 PM">02:00 PM - 03:30 PM</option>
+                            <option value="04:00 PM">04:00 PM - 05:30 PM</option>
+                        </select>
+                    </div>
+                    <br>
+                </form>
+            </section>
+            
+            <section>
+                <h3>Your booking list(s)</h3>
+                <table border="1" cellpadding="8">
+                    <thead>
+                        <tr>
+                            <th>Booking ID</th>
+                            <th>Collection Date</th>
+                            <th>Collection Time</th>
+                            <th>Food ID</th>
+                            <th>Category</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>BKG-0001</td>
+                            <td>2026-05-17</td>
+                            <td>13:37</td>
+                            <td>FI-0010</td>
+                            <td>CA-01</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+        </main>
+    </body>
+</html>

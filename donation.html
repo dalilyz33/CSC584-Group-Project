@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Donations - CareShare</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <header>
+            <h2>Food Donations</h2>
+            <nav>
+                <a href="student-dashboard.html">Dashboard</a>
+                <a href="application.html">Assistance Application</a>
+                <a href="booking.html">Food Collection Bookings</a>
+                <a href="voucher.html">Voucher Redeems</a>
+                <a href="donation.html">Food Donations</a>
+                <a href="login.html">Log Out</a>
+            </nav>
+        </header>
+        <hr>
+        
+        <main>
+            <h3>Log an Incoming Food Item Donation</h3>
+            <p>Fill in the item batch details below before physically dropping off the package at the storage booth counter.</p>
+
+            <form action="donation.html" method="GET">
+            
+                <input type="hidden" name="student_id" value="STU202609">
+
+                <div>
+                    <label for="fooditem_id">Select Item Type:</label><br>
+                    <select id="fooditem_id" name="fooditem_id" required>
+                        <option value="">-- Choose Item SKU --</option>
+                        <option value="FI-9081">Premium White Rice Pack (5kg)</option>
+                        <option value="FI-3402">UHT Whole Milk (1L Box)</option>
+                        <option value="FI-5521">Canned Baked Beans (400g)</option>
+                    </select>
+                </div>
+                <br>
+
+                <div>
+                    <label for="donation_quantity">Quantity (Units / Packages):</label><br>
+                    <input type="number" id="donation_quantity" name="donation_quantity" min="1" placeholder="e.g., 5" required>
+                </div>
+                <br>
+
+                <div>
+                    <label for="donation_dateReceived">Drop-off Date:</label><br>
+                    <input type="date" id="donation_dateReceived" name="donation_dateReceived" value="2026-05-17" required>
+                </div>
+                <br>
+
+                <button type="submit">Submit Donation Log</button>
+            </form>
+        </main>
+    </body>
+</html>

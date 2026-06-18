@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Voucher Wallet - CareShare</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <header>
+            <h2>My Voucher Wallet & Redeem Logs</h2>
+            <nav>
+                <a href="student-dashboard.html">Dashboard</a>
+                <a href="application.html">Assistance Application</a>
+                <a href="booking.html">Food Collection Bookings</a>
+                <a href="voucher.html"><strong>Voucher Redeems</strong></a>
+                <a href="donation.html">Food Donations</a>
+                <a href="login.html">Log Out</a>
+            </nav>
+        </header>
+        <hr>
+        
+        <main>
+            <section>
+                <h3>Your Available Vouchers</h3>
+                <table border="1" cellpadding="6">
+                    <thead>
+                        <tr>
+                            <th>Voucher ID</th>
+                            <th>Value</th>
+                            <th>Category</th>
+                            <th>Assigned Date</th>
+                            <th>Expiry Date</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>VC-1001</strong></td>
+                            <td>RM 50.00</td>
+                            <td>CA-05</td>
+                            <td>2026-01-01</td>
+                            <td>2027-01-01</td>
+                            <td>Active</td>
+                            <td>
+                                <form action="voucher_redemption.html" method="GET" style="display:inline;">
+                                    <button type="submit">Redeem</button>
+                                </form>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+        </main>
+    </body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Inventory Management - CareShare</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <header>
+            <h2>Inventory Management</h2>
+            <nav>
+                <a href="admin.html">Dashboard</a>
+                <a href="review_application.html">Review Applications</a>
+                <a href="inventory.html"><strong>Inventory Management</strong></a>
+                <a href="login.html">Log Out</a>
+            </nav>
+        </header>
+        <hr>
+        
+        <main>
+            <section>
+                <h3>+ Register New Food Item</h3>
+                <form action="admin.html" method="GET">
+                    <div>
+                        <label for="foodItem_id">Food Item ID:</label>
+                        <input type="text" id="foodItem_id" name="foodItem_id" placeholder="e.g., FI-0000" required>
+                    </div>
+                    <br>
+                    
+                    <div>
+                        <label for="foodItem_name">Food Name:</label>
+                        <input type="text" id="foodItem_name" name="foodItem_name" placeholder="e.g., Can, Box" required>
+                    </div>
+                    <br>
+                    
+                    <div>
+                        <label for="foodItem_description">Food Description:</label>
+                        <input type="text" id="foodItem_description" name="foodItem_description">
+                    </div>
+                    <br>
+                    
+                    <div>
+                        <label for="category_id">Category:</label>
+                        <select id="category_id" name="category_id" required>
+                            <option value="CA-01">CA-01 (Dry food)</option>
+                            <option value="CA-02">CA-02 (Snacks)</option>
+                            <option value="CA-03">CA-03 (Raw food)</option>
+                            <option value="CA-04">CA-04 (Desserts)</option>
+                            <option value="CA-05">CA-05 (Beverages)</option>
+                        </select>
+                    </div>
+                    <br>
+                    
+                    <button type="submit">Save Food Item</button>
+                </form>
+            </section>
+        </main>
+    </body>
+</html>
