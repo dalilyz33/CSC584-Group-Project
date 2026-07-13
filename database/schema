@@ -1,0 +1,50 @@
+-- ==========================================================
+-- Donor, Donation, Food Item, Inventory SQL Schema
+-- ==========================================================
+-- ----------------------------------------------------------
+-- Donor
+-- ----------------------------------------------------------
+CREATE TABLE Donor (
+    donor_id INT PRIMARY KEY
+);
+-- ----------------------------------------------------------
+-- FoodItem
+-- ----------------------------------------------------------
+CREATE TABLE FoodItem (
+    foodItem_id          INT PRIMARY KEY,
+    category_id          INT NOT NULL,
+    foodItem_name        VARCHAR(100) NOT NULL,
+    foodItem_type        VARCHAR(30) NOT NULL, -- dry food / packaged food / fresh produce / frozen food / ready to eat food
+    foodItem_description VARCHAR(255)
+);
+
+-- ----------------------------------------------------------
+-- Donation
+-- ----------------------------------------------------------
+CREATE TABLE Donation (
+    donation_id             INT PRIMARY KEY,
+    donor_id                INT NOT NULL,
+    staff_id                INT,
+    foodItem_id             INT NOT NULL,
+    donation_quantity       DECIMAL(10,2) NOT NULL,
+    donation_dateApplication TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    donation_dateApproved   TIMESTAMP,
+    donation_status         VARCHAR(20) NOT NULL DEFAULT 'PENDING', -- PENDING / APPROVED / REJECTED
+    FOREIGN KEY (donor_id)    REFERENCES Donor(donor_id),
+    FOREIGN KEY (foodItem_id) REFERENCES FoodItem(foodItem_id)
+);
+
+-- ----------------------------------------------------------
+-- Inventory
+-- ----------------------------------------------------------
+CREATE TABLE Inventory (
+    inventory_id        INT PRIMARY KEY,
+    staff_id             INT,
+    donation_id          INT,
+    foodItem_id          INT NOT NULL,
+    inventory_quantity   DECIMAL(10,2) NOT NULL DEFAULT 0,
+    inventory_expiryDate DATE,
+    inventory_foodStatus VARCHAR(20) NOT NULL DEFAULT 'AVAILABLE', -- AVAILABLE / EXPIRED / DISTRIBUTED
+    FOREIGN KEY (donation_id) REFERENCES Donation(donation_id),
+    FOREIGN KEY (foodItem_id) REFERENCES FoodItem(foodItem_id)
+);
