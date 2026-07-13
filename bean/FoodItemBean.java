@@ -1,72 +1,24 @@
 package com.careshare.bean;
 
-public class FoodItemBean {
-    private String foodItemID;
+import java.io.Serializable;
+
+public class FoodItemBean implements Serializable {
+    private int foodItemId;
     private String foodItemName;
-    private String category;
     private String foodItemType;
-    private String unit;
-    private String description;
-   
-    public FoodItemBean() {
-    }
+    private String foodItemDescription;
+    private int categoryId;
 
-    public FoodItemBean(String foodItemID, String foodItemName, String category, 
-            String foodItemType, String unit, String description) {
-        this.foodItemID = foodItemID;
-        this.foodItemName = foodItemName;
-        this.category = category;
-        this.foodItemType = foodItemType;
-        this.unit = unit;
-        this.description = description;
-    }
+    public FoodItemBean() {}
 
-    public String getFoodItemID() {
-        return foodItemID;
-    }
-
-    public void setFoodItemID(String foodItemID) {
-        this.foodItemID = foodItemID;
-    }
-
-    public String getFoodItemName() {
-        return foodItemName;
-    }
-
-    public void setFoodItemName(String foodItemName) {
-        this.foodItemName = foodItemName;
-    }
-
-    public String getCategory() {
-        return category;
-    }
-
-    public void setCategory(String category) {
-        this.category = category;
-    }
-
-    public String getFoodItemType() {
-        return foodItemType;
-    }
-
-    public void setFoodItemType(String foodItemType) {
-        this.foodItemType = foodItemType;
-    }
-
-    public String getUnit() {
-        return unit;
-    }
-
-    public void setUnit(String unit) {
-        this.unit = unit;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-    
+    public int getFoodItemId() { return foodItemId; }
+    public void setFoodItemId(int foodItemId) { this.foodItemId = foodItemId; }
+    public String getFoodItemName() { return foodItemName; }
+    public void setFoodItemName(String foodItemName) { this.foodItemName = foodItemName; }
+    public String getFoodItemType() { return foodItemType; }
+    public void setFoodItemType(String foodItemType) { this.foodItemType = foodItemType; }
+    public String getFoodItemDescription() { return foodItemDescription; }
+    public void setFoodItemDescription(String foodItemDescription) { this.foodItemDescription = foodItemDescription; }
+    public int getCategoryId() { return categoryId; }
+    public void setCategoryId(int categoryId) { this.categoryId = categoryId; }
 }
