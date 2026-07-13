@@ -10,7 +10,6 @@ public class DonationBean {
     private String foodItemID;
     private String foodItemName;
     private String staffID;
-    private String unit;
     private int quantity;
     private Date expiryDate;
     private Timestamp donationDate;
@@ -24,13 +23,12 @@ public class DonationBean {
     }
     
     //normal constructor
-    public DonationBean(String donationID, String donorID, String donorName, String foodItemID, String foodItemName, String unit, int quantity, Date expiryDate, Timestamp donationDate, String status, String remarks, String reviewedBy, Timestamp reviewedDate) {
+    public DonationBean(String donationID, String donorID, String donorName, String foodItemID, String foodItemName, int quantity, Date expiryDate, Timestamp donationDate, String status, String remarks, String reviewedBy, Timestamp reviewedDate) {
         this.donationID = donationID;
         this.donorID = donorID;
         this.donorName = donorName;
         this.foodItemID = foodItemID;
         this.foodItemName = foodItemName;
-        this.unit = unit;
         this.quantity = quantity;
         this.expiryDate = expiryDate;
         this.donationDate = donationDate;
@@ -88,15 +86,6 @@ public class DonationBean {
         this.staffID = staffID;
     }
     
-
-    public String getUnit() {
-        return unit;
-    }
-
-    public void setUnit(String unit) {
-        this.unit = unit;
-    }
-
     public int getQuantity() {
         return quantity;
     }
