@@ -14,7 +14,6 @@
         header class="page-header">
     <div class="brand">CareShare</div>
     <nav>
-        <a href="foodItemManagement.jsp">Food Items</a>
         <a href="ReviewDonationServlet">Review Donations</a>
         <a href="InventoryServlet">Inventory</a>
     </nav>
@@ -56,13 +55,13 @@
                             <td><%= d.getRemarks() != null ? d.getRemarks() : "-" %></td>
                             <td>
                                 <div class="actions-row">
-                                    <form class="inline-form" action="ReviewDonationServlet" method="post">
+                                    <form class="inline-form" action="ApproveDonationServlet" method="post">
                                         <input type="hidden" name="donationID" value="<%= d.getDonationID() %>">
                                         <input type="hidden" name="decision" value="APPROVED">
                                         <input type="hidden" name="remarks" value="Approved">
                                         <button type="submit" class="btn btn-approve">Approve</button>
                                     </form>
-                                    <form class="inline-form" action="ReviewDonationServlet" method="post">
+                                    <form class="inline-form" action="RejectDonationServlet" method="post">
                                         <input type="hidden" name="donationID" value="<%= d.getDonationID() %>">
                                         <input type="hidden" name="decision" value="REJECTED">
                                         <input type="hidden" name="remarks" value="Rejected">
