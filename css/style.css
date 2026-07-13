@@ -1,0 +1,114 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: "Segoe UI", Arial, sans-serif;
+    background: #f4f7fb;
+    color: #102033;
+}
+
+.navbar {
+    background: linear-gradient(135deg, #0b1f35, #12355b);
+    color: white;
+    padding: 18px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar a {
+    color: white;
+    text-decoration: none;
+    margin-left: 18px;
+    font-weight: bold;
+}
+
+.container {
+    width: 90%;
+    max-width: 1100px;
+    margin: 30px auto;
+}
+
+.card {
+    background: white;
+    border: 1px solid #d9e3ee;
+    border-radius: 20px;
+    padding: 25px;
+    box-shadow: 0 12px 30px rgba(16, 32, 51, 0.08);
+}
+
+h1, h2 {
+    color: #12355b;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 6px;
+}
+
+input,
+select,
+textarea {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 16px;
+    border: 1px solid #d9e3ee;
+    border-radius: 10px;
+}
+
+button,
+.button {
+    display: inline-block;
+    padding: 11px 17px;
+    background: #12355b;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.approve {
+    background: #0f766e;
+}
+
+.reject {
+    background: #d94848;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+}
+
+th {
+    background: #eef3f8;
+    color: #475569;
+    text-align: left;
+}
+
+th, td {
+    padding: 12px;
+    border-bottom: 1px solid #e5ebf2;
+}
+
+.message {
+    background: #e8faef;
+    color: #08723c;
+    padding: 12px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+}
+
+.error {
+    background: #ffeaea;
+    color: #b12727;
+    padding: 12px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+}
