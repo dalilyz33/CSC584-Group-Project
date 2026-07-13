@@ -1,43 +1,29 @@
-package com.foodbank.servlet;
+package com.careshare.servlet;
 
-import com.foodbank.dao.FoodCollectionBookingDAO;
-
+import com.careshare.util.DBConnection;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import java.io.IOException;
 
-/**
- * Handles a student cancelling their own food collection booking.
- * Author: Ainaa - Food Booking, Notification & Dashboard Module
- */
+@WebServlet("/CancelBookingServlet")
 public class CancelBookingServlet extends HttpServlet {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        int id = Integer.parseInt(request.getParameter("id"));
 
-    private final FoodCollectionBookingDAO bookingDAO = new FoodCollectionBookingDAO();
-
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-
-        HttpSession session = request.getSession(false);
-        if (session == null || session.getAttribute("studentId") == null) {
-            response.sendRedirect("login.jsp");
-            return;
+        try (Connection conn = DBConnection.getConnection()) {
+            String sql = "DELETE FROM FoodCollectionBooking WHERE bookind_id=?";
+            try (PreparedStatement ps = conn.prepareStatement(sql)) {
+                ps.setInt(1, id);
+                ps.executeUpdate();
+            }
+            response.sendRedirect("ViewBookingServlet?action=myBookings");
+        } catch (Exception e) {
+            throw new ServletException(e);
         }
-
-        int studentId = (int) session.getAttribute("studentId");
-        int bookingId = Integer.parseInt(request.getParameter("bookingId"));
-
-        boolean cancelled = bookingDAO.cancelBooking(bookingId, studentId);
-
-        if (cancelled) {
-            request.setAttribute("successMessage", "Booking cancelled successfully.");
-        } else {
-            request.setAttribute("errorMessage", "Unable to cancel this booking. It may already be completed or cancelled.");
-        }
-
-        response.sendRedirect("myBooking.jsp");
     }
 }
