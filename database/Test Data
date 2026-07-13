@@ -1,0 +1,12 @@
+-- Insert Baseline Categories
+INSERT INTO NotificationCategory (category_name) VALUES 
+('New Food Arrival'),
+('Reservation Confirmation'),
+('Voucher Distribution'),
+('Urgent Broadcast');
+
+-- Insert Initial Food Items
+INSERT INTO FoodItem (foodItem_name, foodItem_type, foodItem_description, category_id) VALUES 
+('Premium White Rice 5kg', 'Dry Provisions', 'Long-grain white rice suited for basic pantry supply.', 1),
+('Canned Mackerel in Tomato Sauce', 'Canned Goods', 'High protein canned fish with extended shelf life.', 1),
+('UHT Whole Milk 1L', 'Fresh Goods', 'Full cream milk pasteurized for shelf safety until opened.', 1);
