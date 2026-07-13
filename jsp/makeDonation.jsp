@@ -14,7 +14,6 @@
         <header class="page-header">
             <div class="brand">CareShare Donor Portal</div>
             <nav>
-                <a href="donorDashboard.jsp">Dashboard</a>
                 <a href="makeDonation.jsp">Make donation</a>
                 <a href="ViewDonationServlet">View my donations</a>
             </nav>
@@ -38,7 +37,7 @@
             %>
             
             <div class="card">
-                <form action="CreateDonationServlet" method="post">
+                <form action="AddDonationServlet" method="post">
                     <div class="field">
                         <label for="foodItemID">Food Item</label>
                         <select id="foodItemID" name="foodItemID" required>
