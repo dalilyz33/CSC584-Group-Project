@@ -1,0 +1,53 @@
+-- ==========================================
+-- 1. NOTIFICATION CATEGORY TABLE
+-- Must be created first because other tables reference it.
+-- ==========================================
+CREATE TABLE NotificationCategory (
+    category_id INT AUTO_INCREMENT PRIMARY KEY,
+    category_name VARCHAR(100) NOT NULL
+);
+
+-- ==========================================
+-- 2. FOOD ITEM TABLE
+-- Stores available inventory items for students to view.
+-- ==========================================
+CREATE TABLE FoodItem (
+    foodItem_id INT AUTO_INCREMENT PRIMARY KEY,
+    foodItem_name VARCHAR(150) NOT NULL,
+    foodItem_type VARCHAR(100) NOT NULL,
+    foodItem_description TEXT NOT NULL,
+    category_id INT,
+    FOREIGN KEY (category_id) REFERENCES NotificationCategory(category_id) ON DELETE SET NULL
+);
+
+-- ==========================================
+-- 3. FOOD COLLECTION BOOKING TABLE
+-- Keeps track of timeslots scheduled by students.
+-- NOTE: Uses 'bookind_id' to match your ERD layout and Servlet mappings.
+-- ==========================================
+CREATE TABLE FoodCollectionBooking (
+    bookind_id INT AUTO_INCREMENT PRIMARY KEY, 
+    booking_date DATE NOT NULL,
+    booking_time TIME NOT NULL,
+    booking_foodItem_id INT NOT NULL,
+    booking_studentId INT NOT NULL,            -- References User table managed by Member 1
+    category_id INT,
+    FOREIGN KEY (booking_foodItem_id) REFERENCES FoodItem(foodItem_id) ON DELETE CASCADE,
+    FOREIGN KEY (booking_studentId) REFERENCES User(user_id) ON DELETE CASCADE,
+    FOREIGN KEY (category_id) REFERENCES NotificationCategory(category_id) ON DELETE SET NULL
+);
+
+-- ==========================================
+-- 4. NOTIFICATION TABLE
+-- Houses automated alerts pushed by the system to users.
+-- ==========================================
+CREATE TABLE Notification (
+    notification_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,                      -- Target audience recipient (Student/Admin/Donor)
+    notification_message TEXT NOT NULL,
+    notification_dateSent TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    notification_status VARCHAR(50) DEFAULT 'Unread',
+    notification_categoryId INT,
+    FOREIGN KEY (user_id) REFERENCES User(user_id) ON DELETE CASCADE,
+    FOREIGN KEY (notification_categoryId) REFERENCES NotificationCategory(category_id) ON DELETE SET NULL
+);
