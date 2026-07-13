@@ -1,77 +1,35 @@
 package com.careshare.servlet;
 
+import com.careshare.util.DBConnection;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
-import com.careshare.bean.FoodItemBean;
-import com.careshare.dao.FoodItemDAO;
-
-@WebServlet(name = "AddFoodItemServlet", urlPatterns = {"/AddFoodItemServlet"})
+@WebServlet("/AddFoodItemServlet")
 public class AddFoodItemServlet extends HttpServlet {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String name = request.getParameter("foodItemName");
+        String type = request.getParameter("foodItemType");
+        String desc = request.getParameter("foodItemDescription");
+        int categoryId = Integer.parseInt(request.getParameter("categoryId"));
 
-    private final FoodItemDAO foodItemDAO = new FoodItemDAO();
-    
-    /*
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet AddFoodItemServlet</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet AddFoodItemServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
-    }*/
-
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        //processRequest(request, response);
-        response.sendRedirect("addFoodItem.jsp");
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        //processRequest(request, response);
-        FoodItemBean item = new FoodItemBean();
-        item.setFoodItemName(request.getParameter("foodItemName"));
-        item.setCategory(request.getParameter("category"));
-        item.setDescription(request.getParameter("description"));
-
-        int newId = foodItemDAO.addFoodItem(item);
-        
-        HttpSession session = request.getSession();
-        
-        if (newId != -1) {
-            session.setAttribute("message", "Food item added successfully.");
-            session.setAttribute("messageType", "success");
-        } else {
-            session.setAttribute("message", "Failed to add food item.");
-            session.setAttribute("messageType", "error");
+        try (Connection conn = DBConnection.getConnection()) {
+            String sql = "INSERT INTO FoodItem (foodItem_name, foodItem_type, foodItem_description, category_id) VALUES (?, ?, ?, ?)";
+            try (PreparedStatement ps = conn.prepareStatement(sql)) {
+                ps.setString(1, name);
+                ps.setString(2, type);
+                ps.setString(3, desc);
+                ps.setInt(4, categoryId);
+                ps.executeUpdate();
+            }
+            response.sendRedirect("ViewFoodItemServlet?role=admin");
+        } catch (Exception e) {
+            throw new ServletException(e);
         }
     }
-
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
-
 }
