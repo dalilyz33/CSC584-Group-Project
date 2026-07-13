@@ -1,66 +1,33 @@
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@ page import="com.careshare.bean.FoodItemBean" %>
-<%@ page import="com.careshare.dao.FoodItemDAO" %>
-<%@ page import="java.util.List" %>
-<%
-    FoodItemBean item = (FoodItemBean) request.getAttribute("foodItem");
-    String[] foodItemTypes = {"dry food", "packaged food", "fresh produce", "frozen food", "ready to eat food"};
-%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Edit Food Item</title>
-    </head>
-    <body>
-        <header class="page-header">
-            <div class="brand">CareShare</div>
-            <nav>
-                <a href="foodItemManagement.jsp">Food Items</a>
-                <a href="ReviewDonationServlet">Review Donations</a>
-                <a href="InventoryServlet">Inventory</a>
-            </nav>
-        </header>
+<head>
+    <title>CareShare - Edit Food Item</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="card" style="max-width: 600px; margin: 40px auto;">
+            <h2>Modify Food Entry</h2>
+            <form action="UpdateFoodItemServlet" method="POST">
+                <input type="hidden" name="foodItemId" value="${foodItem.foodItemId}">
 
-        <div class="container">
-            <h1>Edit Food Item</h1>
+                <label>Food Item Name</label>
+                <input type="text" name="foodItemName" value="${foodItem.foodItemName}" required>
 
-            <div class="card">
-                <% if (item == null) { %>
-                    <div class="empty-state">Food item not found.</div>
-                <% } else { %>
-                <form action="UpdateFoodItemServlet" method="post">
-                    <input type="hidden" name="foodItemId" value="<%= item.getFoodItemID() %>">
+                <label>Food Type</label>
+                <input type="text" name="foodItemType" value="${foodItem.foodItemType}" required>
 
-                    <div class="field">
-                        <label for="itemName">Item Name</label>
-                        <input type="text" id="itemName" name="itemName" value="<%= item.getFoodItemName() %>" required>
-                    </div>
+                <label>Description</label>
+                <textarea name="foodItemDescription" rows="4" required>${foodItem.foodItemDescription}</textarea>
 
-                    <div class="field">
-                        <label for="category">Category</label>
-                        <input type="text" id="category" name="category" value="<%= item.getCategory() %>" required>
-                    </div>
+                <label>Notification Category ID</label>
+                <input type="number" name="categoryId" value="${foodItem.categoryId}" required>
 
-                    <div class="field">
-                        <label for="foodItemType">Food Type</label>
-                        <select id="foodItemType" name="foodItemType" required>
-                            <% for (String t : foodItemTypes) { %>
-                                <option value="<%= t %>" <%= t.equals(item.getFoodItemType()) ? "selected" : "" %>><%= t %></option>
-                            <% } %>
-                        </select>
-                    </div>
-
-                    <div class="field">
-                        <label for="description">Description</label>
-                        <textarea id="description" name="description"><%= item.getDescription() != null ? item.getDescription() : "" %></textarea>
-                    </div>
-
-                    <button type="submit" class="btn btn-primary">Save Changes</button>
-                    <a href="foodItemManagement.jsp" class="btn btn-secondary">Cancel</a>
-                </form>
-                <% } %>
-            </div>
+                <button type="submit" class="approve">Apply Changes</button>
+                <a href="ViewFoodItemServlet?role=admin" class="button">Cancel</a>
+            </form>
         </div>
-    </body>
+    </div>
+</body>
 </html>
