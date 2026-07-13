@@ -14,7 +14,6 @@
         <header class="page-header">
             <div class="brand">CareShare &mdash; Donor Portal</div>
                 <nav>
-                    <a href="donorDashboard.jsp">Dashboard</a>
                     <a href="makeDonation.jsp">Make Donation</a>
                     <a href="ViewDonationServlet">View My Donations</a>
                 </nav>
