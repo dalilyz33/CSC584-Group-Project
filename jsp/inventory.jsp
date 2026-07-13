@@ -18,7 +18,6 @@
         <header class="page-header">
             <div class="brand">CareShare</div>
             <nav>
-                <a href="foodItemManagement.jsp">Food Items</a>
                 <a href="ReviewDonationServlet">Review Donations</a>
                 <a href="InventoryServlet">Inventory</a>
             </nav>
