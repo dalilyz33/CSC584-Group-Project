@@ -1,4 +1,4 @@
-package com.foodbank.model;
+package com.careshare.model;
 
 import java.sql.Timestamp;
 
