@@ -1,59 +1,66 @@
-package com.foodbank.servlet;
+package com.careshare.servlet;
 
-import com.foodbank.dao.FoodCollectionBookingDAO;
-import com.foodbank.model.FoodCollectionBookingBean;
-
+import com.careshare.bean.FoodCollectionBookingBean;
+import com.careshare.util.DBConnection;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
-import java.util.List;
 
-/**
- * Displays bookings:
- * - Student role -> only their own bookings (myBooking.jsp)
- * - Admin role -> all bookings, optionally filtered by status (manageBooking.jsp)
- * Author: Ainaa - Food Booking, Notification & Dashboard Module
- */
+@WebServlet("/ViewBookingServlet")
 public class ViewBookingServlet extends HttpServlet {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String action = request.getParameter("action");
+        List<FoodCollectionBookingBean> bookings = new ArrayList<>();
 
-    private final FoodCollectionBookingDAO bookingDAO = new FoodCollectionBookingDAO();
-
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-
-        HttpSession session = request.getSession(false);
-        if (session == null || session.getAttribute("role") == null) {
-            response.sendRedirect("login.jsp");
-            return;
-        }
-
-        String role = (String) session.getAttribute("role");
-
-        if ("STUDENT".equalsIgnoreCase(role)) {
-            int studentId = (int) session.getAttribute("studentId");
-            List<FoodCollectionBookingBean> bookings = bookingDAO.getBookingsByStudent(studentId);
-            request.setAttribute("bookings", bookings);
-            request.getRequestDispatcher("myBooking.jsp").forward(request, response);
-
-        } else if ("ADMIN".equalsIgnoreCase(role)) {
-            String statusFilter = request.getParameter("status");
-            List<FoodCollectionBookingBean> bookings;
-
-            if (statusFilter != null && !statusFilter.trim().isEmpty() && !statusFilter.equalsIgnoreCase("ALL")) {
-                bookings = bookingDAO.getBookingsByStatus(statusFilter);
-            } else {
-                bookings = bookingDAO.getAllBookings();
+        try (Connection conn = DBConnection.getConnection()) {
+            if ("myBookings".equals(action)) {
+                HttpSession session = request.getSession();
+                Integer studentId = (Integer) session.getAttribute("userId");
+                
+                String sql = "SELECT b.*, f.foodItem_name FROM FoodCollectionBooking b JOIN FoodItem f ON b.booking_foodItem_id = f.foodItem_id WHERE b.booking_studentId = ?";
+                try (PreparedStatement ps = conn.prepareStatement(sql)) {
+                    ps.setInt(1, studentId);
+                    try (ResultSet rs = ps.executeQuery()) {
+                        while (rs.next()) {
+                            FoodCollectionBookingBean b = new FoodCollectionBookingBean();
+                            b.setBookingId(rs.getInt("bookind_id")); // matches DB spelling mapping
+                            b.setBookingDate(rs.getDate("booking_date"));
+                            b.setBookingTime(rs.getTime("booking_time"));
+                            b.setFoodItemName(rs.getString("foodItem_name"));
+                            bookings.add(b);
+                        }
+                    }
+                }
+                request.setAttribute("myBookings", bookings);
+                request.getRequestDispatcher("myFoodBooking.jsp").forward(request, response);
+                
+            } else if ("adminView".equals(action)) {
+                String sql = "SELECT b.*, f.foodItem_name, u.user_fullName FROM FoodCollectionBooking b JOIN FoodItem f ON b.booking_foodItem_id = f.foodItem_id JOIN User u ON b.booking_studentId = u.user_id";
+                try (PreparedStatement ps = conn.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
+                    while (rs.next()) {
+                        FoodCollectionBookingBean b = new FoodCollectionBookingBean();
+                        b.setBookingId(rs.getInt("bookind_id"));
+                        b.setBookingDate(rs.getDate("booking_date"));
+                        b.setBookingTime(rs.getTime("booking_time"));
+                        b.setFoodItemName(rs.getString("foodItem_name"));
+                        b.setStudentName(rs.getString("user_fullName"));
+                        bookings.add(b);
+                    }
+                }
+                request.setAttribute("allBookings", bookings);
+                request.getRequestDispatcher("adminViewBookings.jsp").forward(request, response);
             }
-
-            request.setAttribute("bookings", bookings);
-            request.getRequestDispatcher("manageBooking.jsp").forward(request, response);
-
-        } else {
-            response.sendRedirect("index.jsp");
+        } catch (Exception e) {
+            throw new ServletException(e);
         }
     }
 }
