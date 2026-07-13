@@ -1,0 +1,142 @@
+---CARESHARE DATABASE---
+
+--1. APPUSER--
+CREATE TABLE AppUser (
+    user_id VARCHAR(40) NOT NULL,
+    user_fullName VARCHAR(100) NOT NULL,
+    user_email VARCHAR(100) NOT NULL,
+    user_password VARCHAR(100) NOT NULL,
+    user_role VARCHAR(20) NOT NULL,
+    PRIMARY KEY (user_id),
+    CONSTRAINT chk_role CHECK (user_role IN ('Student','Admin','Donor'))
+);
+
+--2. ADMIN--
+CREATE TABLE Admin (
+    staff_id VARCHAR(40) NOT NULL,
+    user_id VARCHAR(40) NOT NULL,
+    PRIMARY KEY (staff_id),
+    FOREIGN KEY (user_id) REFERENCES AppUser(user_id)
+);
+
+--3. STUDENT--
+CREATE TABLE Student (
+    student_id VARCHAR(40) NOT NULL,
+    user_id VARCHAR(40) NOT NULL,
+    assistance_type VARCHAR(50),
+    program_code VARCHAR(20),
+    group_code VARCHAR(20),
+    PRIMARY KEY (student_id),
+    FOREIGN KEY (user_id) REFERENCES AppUser(user_id)
+);
+
+--4. DONOR--
+CREATE TABLE Donor (
+    donor_id VARCHAR(40) NOT NULL,
+    user_id VARCHAR(40) NOT NULL,
+    PRIMARY KEY (donor_id),
+    FOREIGN KEY (user_id) REFERENCES AppUser(user_id)
+);
+
+--5. NOTIFICATION CATEGORY--
+CREATE TABLE NotificationCategory (
+    category_id VARCHAR(40) NOT NULL,
+    category_name VARCHAR(100) NOT NULL,
+    PRIMARY KEY (category_id)
+);
+
+--6. ASSISTANCE APPLICATION--
+CREATE TABLE ASSISTANCEAPPLICATION (
+    APPLICATION_ID VARCHAR(40) NOT NULL,
+    STUDENT_ID VARCHAR(40) NOT NULL,
+    APPLICATION_REVIEWEDBY VARCHAR(40),
+    APPLICATION_TYPE VARCHAR(30) NOT NULL,
+    APPLICATION_DATE DATE NOT NULL,
+    APPLICATION_STATUS VARCHAR(20) DEFAULT 'Pending',
+    APPLICATION_SUPPORTINGDOCUMENT VARCHAR(255),
+    PRIMARY KEY (APPLICATION_ID),
+    FOREIGN KEY (STUDENT_ID) REFERENCES STUDENT(STUDENT_ID),
+    FOREIGN KEY (APPLICATION_REVIEWEDBY) REFERENCES ADMIN(STAFF_ID)
+);
+
+--7. VOUCHER--
+CREATE TABLE VOUCHER (
+    VOUCHER_ID VARCHAR(40) NOT NULL,
+    STUDENT_ID VARCHAR(40) NOT NULL,
+    CATEGORY_ID VARCHAR(40) NOT NULL,
+    VOUCHER_ASSIGNEDBY VARCHAR(40) NOT NULL,
+    VOUCHER_QUANTITY INTEGER NOT NULL,
+    VOUCHER_VALUE DECIMAL(10,2) NOT NULL,
+    VOUCHER_STATUS VARCHAR(20) DEFAULT 'Active',
+    VOUCHER_ASSIGNEDDATE DATE NOT NULL,
+    VOUCHER_EXPIRYDATE DATE NOT NULL,
+    PRIMARY KEY (VOUCHER_ID),
+    FOREIGN KEY (STUDENT_ID) REFERENCES STUDENT(STUDENT_ID),
+    FOREIGN KEY (CATEGORY_ID) REFERENCES NOTIFICATIONCATEGORY(category_id),
+    FOREIGN KEY (VOUCHER_ASSIGNEDBY) REFERENCES ADMIN(STAFF_ID)
+);
+
+--8. VOUCHER REDEMPTION--
+CREATE TABLE VOUCHERREDEMPTION (
+    REDEMPTION_ID VARCHAR(40) NOT NULL,
+    STUDENT_ID VARCHAR(40) NOT NULL,
+    VOUCHER_ID VARCHAR(40) NOT NULL,
+    REDEMPTION_DATE DATE NOT NULL,
+    PRIMARY KEY (REDEMPTION_ID),
+    FOREIGN KEY (STUDENT_ID) REFERENCES STUDENT(STUDENT_ID),
+    FOREIGN KEY (VOUCHER_ID) REFERENCES VOUCHER(VOUCHER_ID)
+);
+
+--9. FOOD ITEM--
+CREATE TABLE FoodItem (
+    foodItem_id VARCHAR(40) NOT NULL,
+    category_id VARCHAR(40) NOT NULL,
+    foodItem_name VARCHAR(150) NOT NULL,
+    foodItem_type VARCHAR(100) NOT NULL, -- dry food / packaged food / fresh produce / etc.
+    foodItem_description VARCHAR(255),
+    PRIMARY KEY (foodItem_id),
+    FOREIGN KEY (category_id) REFERENCES NotificationCategory(category_id)
+);
+
+--10. DONATION--
+CREATE TABLE Donation (
+    donation_id VARCHAR(40) NOT NULL,
+    donor_id VARCHAR(40) NOT NULL,
+    staff_id VARCHAR(40),
+    foodItem_id VARCHAR(40) NOT NULL,
+    donation_quantity DECIMAL(10,2) NOT NULL,
+    donation_dateApplication TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    donation_dateApproved TIMESTAMP,
+    donation_status VARCHAR(20) DEFAULT 'PENDING', -- PENDING / APPROVED / REJECTED
+    PRIMARY KEY (donation_id),
+    FOREIGN KEY (donor_id) REFERENCES Donor(donor_id),
+    FOREIGN KEY (staff_id) REFERENCES Admin(staff_id),
+    FOREIGN KEY (foodItem_id) REFERENCES FoodItem(foodItem_id)
+);
+
+--11. FOOD COLLECTION BOOKING--
+CREATE TABLE FoodCollectionBooking (
+    booking_id VARCHAR(40) NOT NULL, 
+    booking_date DATE NOT NULL,
+    booking_time TIME NOT NULL,
+    booking_foodItem_id VARCHAR(40) NOT NULL,
+    booking_studentId VARCHAR(40) NOT NULL, 
+    category_id VARCHAR(40),
+    PRIMARY KEY (booking_id),
+    FOREIGN KEY (booking_foodItem_id) REFERENCES FoodItem(foodItem_id),
+    FOREIGN KEY (booking_studentId) REFERENCES Student(student_id),
+    FOREIGN KEY (category_id) REFERENCES NotificationCategory(category_id)
+);
+
+--12. NOTIFICATION--
+CREATE TABLE Notification (
+    notification_id VARCHAR(40) NOT NULL,
+    user_id VARCHAR(40) NOT NULL,                      
+    notification_message VARCHAR(255) NOT NULL,
+    notification_dateSent TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    notification_status VARCHAR(50) DEFAULT 'Unread',
+    notification_categoryId VARCHAR(40),
+    PRIMARY KEY (notification_id),
+    FOREIGN KEY (user_id) REFERENCES AppUser(user_id),
+    FOREIGN KEY (notification_categoryId) REFERENCES NotificationCategory(category_id)
+);
