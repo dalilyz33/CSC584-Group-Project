@@ -22,7 +22,7 @@
     <meta charset="UTF-8">
     <title>My Applications | CareShare</title>
     <link rel="stylesheet"
-          href="<%= request.getContextPath() %>/css/member2.css">
+          href="<%= request.getContextPath() %>/css/style.css">
 </head>
 
 <body>
