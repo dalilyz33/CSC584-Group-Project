@@ -1,83 +1,37 @@
 package com.careshare.servlet;
 
+import com.careshare.util.DBConnection;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.RequestDispatcher;
-import javax.servlet.http.HttpSession;
 
-import com.careshare.bean.FoodItemBean;
-import com.careshare.dao.FoodItemDAO;
-
-@WebServlet(name = "UpdateFoodItemServlet", urlPatterns = {"/UpdateFoodItemServlet"})
+@WebServlet("/UpdateFoodItemServlet")
 public class UpdateFoodItemServlet extends HttpServlet {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        int id = Integer.parseInt(request.getParameter("foodItemId"));
+        String name = request.getParameter("foodItemName");
+        String type = request.getParameter("foodItemType");
+        String desc = request.getParameter("foodItemDescription");
+        int categoryId = Integer.parseInt(request.getParameter("categoryId"));
 
-    private final FoodItemDAO foodItemDAO = new FoodItemDAO();
-    
-    /*protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code.
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet UpdateFoodItemServlet</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet UpdateFoodItemServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+        try (Connection conn = DBConnection.getConnection()) {
+            String sql = "UPDATE FoodItem SET foodItem_name=?, foodItem_type=?, foodItem_description=?, category_id=? WHERE foodItem_id=?";
+            try (PreparedStatement ps = conn.prepareStatement(sql)) {
+                ps.setString(1, name);
+                ps.setString(2, type);
+                ps.setString(3, desc);
+                ps.setInt(4, categoryId);
+                ps.setInt(5, id);
+                ps.executeUpdate();
+            }
+            response.sendRedirect("ViewFoodItemServlet?role=admin");
+        } catch (Exception e) {
+            throw new ServletException(e);
         }
-    }*/
-
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        //processRequest(request, response);
-        String foodItemID = request.getParameter("foodItemID");
-        FoodItemBean item = foodItemDAO.getFoodItemById(foodItemID);
-        request.setAttribute("foodItem", item);
-        RequestDispatcher rd = request.getRequestDispatcher("editFoodItem.jsp");
-        rd.forward(request, response);
     }
-
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        //processRequest(request, response);
-        FoodItemBean item = new FoodItemBean();
-        item.setFoodItemID(request.getParameter("foodItemID"));
-        item.setFoodItemName(request.getParameter("foodItemName"));
-        item.setCategory(request.getParameter("category"));
-        item.setDescription(request.getParameter("description"));
-
-        boolean updated = foodItemDAO.updateFoodItem(item);
-        
-        HttpSession session = request.getSession();
-        
-        if (updated) {
-            session.setAttribute("message", "Food item updated successfully.");
-            session.setAttribute("messageType", "success");
-        } else {
-            session.setAttribute("message", "Could not update this item — it may already be used in a donation or inventory record.");
-            session.setAttribute("messageType", "error");
-        }
-        response.sendRedirect("foodItemManagement.jsp");
-    }
-
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
-
 }
