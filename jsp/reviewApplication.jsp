@@ -24,7 +24,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Review Application | CareShare</title>
-    <link rel="stylesheet" href="<%= request.getContextPath() %>/css/member2.css">
+    <link rel="stylesheet" href="<%= request.getContextPath() %>/css/style.css">
 </head>
 
 <body>
